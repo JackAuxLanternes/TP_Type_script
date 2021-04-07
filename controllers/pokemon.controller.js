@@ -5,7 +5,8 @@ var PokemonController = /** @class */ (function () {
     function PokemonController() {
     }
     PokemonController.attack = function (attacker, defender) {
-        var damages = (50 * attacker.attack) / defender.defense;
+        var damages = 50 * attacker.attack * this.getAttackMultiplier(attacker.types[0], defender.types);
+        damages /= defender.defense;
         if (defender.currentHp - damages >= 0) {
             defender.currentHp -= damages;
         }
@@ -28,6 +29,36 @@ var PokemonController = /** @class */ (function () {
         else {
             return pokemon2;
         }
+    };
+    PokemonController.getAttackMultiplier = function (attackerType, defenderTypes) {
+        var _this = this;
+        return defenderTypes.reduce(function (multiplier, defenderType) {
+            if (_this.containsIn(attackerType, defenderType.immunities) || multiplier === 0) {
+                return 0;
+            }
+            defenderType.weaknesses.forEach(function (weakness) {
+                if (weakness === attackerType) {
+                    multiplier *= 2;
+                }
+            });
+            defenderType.resistances.forEach(function (resistance) {
+                if (resistance === attackerType) {
+                    multiplier /= 2;
+                }
+            });
+            return multiplier;
+        }, 1);
+    };
+    PokemonController.containsIn = function (typeSearched, typeList) {
+        var flag = typeList.reduce(function (prev, type) {
+            if (typeSearched === type) {
+                return true;
+            }
+            else {
+                return prev;
+            }
+        }, false);
+        return flag;
     };
     return PokemonController;
 }());

@@ -1,9 +1,14 @@
 import {Pokemon} from "../models";
+import {Type} from "../models/type.model";
+
 export class PokemonController
 {
     static attack(attacker: Pokemon, defender: Pokemon): void
     {
-        let damages = (50 * attacker.attack) / defender.defense;
+        let damages = 50 * attacker.attack * this.getAttackMultiplier(attacker.types[0], defender.types);
+
+        damages /= defender.defense;
+
         if(defender.currentHp - damages >= 0)
         {
             defender.currentHp -= damages;
@@ -31,5 +36,40 @@ export class PokemonController
         else {
             return pokemon2;
         }
+    }
+
+    private static getAttackMultiplier(attackerType: Type, defenderTypes: Type[]): number
+    {
+        return defenderTypes.reduce((multiplier, defenderType) => {
+            if (this.containsIn(attackerType, defenderType.immunities) || multiplier === 0) {
+                return 0;
+            }
+
+            defenderType.weaknesses.forEach((weakness) => {
+                if (weakness === attackerType) {
+                    multiplier *= 2;
+                }
+            });
+
+            defenderType.resistances.forEach((resistance) => {
+                if (resistance === attackerType) {
+                    multiplier /= 2;
+                }
+            });
+            return multiplier;
+        }, 1);
+    }
+
+    private static containsIn(typeSearched: Type, typeList: Type[]): boolean
+    {
+        let flag = typeList.reduce((prev, type) => {
+            if (typeSearched === type) {
+                return true;
+            } else {
+                return prev;
+            }
+        }, false);
+
+        return flag;
     }
 }

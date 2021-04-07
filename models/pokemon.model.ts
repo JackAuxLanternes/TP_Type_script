@@ -1,6 +1,9 @@
+import {Type} from "./type.model";
+
 export interface IPokemon
 {
     name: string;
+    types: Type[];
     hp: number;
     attack: number;
     defense: number;
@@ -12,6 +15,7 @@ export interface IPokemon
 export class Pokemon
 {
     name: string;
+    types: Type[];
     maxHp: number;
     currentHp: number;
     attack: number;
@@ -22,6 +26,7 @@ export class Pokemon
 
     constructor(props: IPokemon) {
         this.name = props.name;
+        this.types = props.types;
         this.maxHp = props.hp;
         this.currentHp = props.hp;
         this.attack = props.attack;

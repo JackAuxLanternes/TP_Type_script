@@ -4,6 +4,7 @@ exports.Pokemon = void 0;
 var Pokemon = /** @class */ (function () {
     function Pokemon(props) {
         this.name = props.name;
+        this.types = props.types;
         this.maxHp = props.hp;
         this.currentHp = props.hp;
         this.attack = props.attack;
