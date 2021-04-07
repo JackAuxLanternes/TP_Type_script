@@ -1,4 +1,5 @@
 import {Type} from "./type.model";
+import {Move} from "./move.model";
 
 export interface IPokemon
 {
@@ -10,6 +11,7 @@ export interface IPokemon
     specialAttack: number;
     specialDefense: number;
     speed: number;
+    moves: Move[];
 }
 
 export class Pokemon
@@ -23,6 +25,7 @@ export class Pokemon
     specialAttack: number;
     specialDefense: number;
     speed: number;
+    moves: Move[];
 
     constructor(props: IPokemon) {
         this.name = props.name;
@@ -34,5 +37,19 @@ export class Pokemon
         this.specialAttack = props.specialAttack;
         this.specialDefense = props.specialDefense;
         this.speed = props.speed;
+        this.moves = props.moves;
+    }
+
+    addMove(move: Move): void
+    {
+        if(this.moves.length < 4)
+        {
+            this.moves.push(move);
+        }
+    }
+
+    removeMove(moveNumber: number): void
+    {
+        this.moves.splice(moveNumber, 1);
     }
 }

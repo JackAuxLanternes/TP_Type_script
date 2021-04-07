@@ -1,20 +1,43 @@
-import {Pokemon} from "../models";
-import {Type} from "../models";
+import {Move, Pokemon, Type} from "../models";
 
 export class PokemonController
 {
-    static attack(attacker: Pokemon, defender: Pokemon): void
+    static attackWith(attacker: Pokemon, defender: Pokemon, move: Move): void
     {
-        let damages = 50 * attacker.attack * this.getAttackMultiplier(attacker.types[0], defender.types);
+        let damages;
 
-        damages /= defender.defense;
+        console.log(`${attacker.name} used ${move.name} against ${defender.name}`);
+        move.ppLeft -= 1;
 
-        if(defender.currentHp - damages >= 0)
+        if(Math.floor(Math.random() * 100) > move.accuracy)
+        {
+            console.log(`${attacker.name} missed`);
+            return;
+        }
+
+        if(move.category === "physical")
+        {
+            damages = move.power * attacker.attack * this.getAttackMultiplier(move.type, defender.types);
+
+            damages /= defender.defense;
+        }
+        else
+        {
+            damages = move.power * attacker.specialAttack * this.getAttackMultiplier(move.type, defender.types);
+
+            damages /= defender.specialDefense;
+        }
+
+        damages = Math.floor(damages);
+        console.log(`${attacker.name} deal ${damages} damages`);
+
+        if(defender.currentHp - damages > 0)
         {
             defender.currentHp -= damages;
         }
         else
         {
+            console.log(`${defender.name} is K.O.`);
             defender.currentHp = 0;
         }
     }

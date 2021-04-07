@@ -1,11 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var models_1 = require("./models");
-var type_model_1 = require("./models/type.model");
-var electric = new type_model_1.Type("Electric");
-var water = new type_model_1.Type("Water");
+var electric = new models_1.Type("Electric");
+var water = new models_1.Type("Water");
 electric.addResistance(water);
 water.addWeakness(electric);
+var thunder = new models_1.Move({
+    name: 'Thunder',
+    type: electric,
+    pp: 10,
+    power: 110,
+    accuracy: 100,
+    priority: 0,
+    category: 'special'
+});
 var pikachu = new models_1.Pokemon({
     name: "Pikachu",
     types: [electric],
@@ -14,7 +22,8 @@ var pikachu = new models_1.Pokemon({
     defense: 40,
     specialAttack: 50,
     specialDefense: 50,
-    speed: 90
+    speed: 90,
+    moves: [thunder]
 });
 console.log(pikachu.name);
 console.log(pikachu.types);

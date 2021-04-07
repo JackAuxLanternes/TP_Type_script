@@ -1,11 +1,20 @@
-import {Pokemon} from "./models";
-import {Type} from "./models/type.model";
+import {Move, Pokemon, Type} from "./models";
 
 const electric = new Type("Electric");
 const water = new Type("Water");
 
 electric.addResistance(water);
 water.addWeakness(electric);
+
+const thunder = new Move({
+    name: 'Thunder',
+    type: electric,
+    pp: 10,
+    power: 110,
+    accuracy: 100, // It's 70 but it's for the test
+    priority: 0,
+    category: 'special'
+});
 
 const pikachu = new Pokemon({
     name: "Pikachu",
@@ -15,7 +24,8 @@ const pikachu = new Pokemon({
     defense: 40,
     specialAttack: 50,
     specialDefense: 50,
-    speed: 90
+    speed: 90,
+    moves: [thunder]
 });
 
 console.log(pikachu.name);

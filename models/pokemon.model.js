@@ -12,7 +12,16 @@ var Pokemon = /** @class */ (function () {
         this.specialAttack = props.specialAttack;
         this.specialDefense = props.specialDefense;
         this.speed = props.speed;
+        this.moves = props.moves;
     }
+    Pokemon.prototype.addMove = function (move) {
+        if (this.moves.length < 4) {
+            this.moves.push(move);
+        }
+    };
+    Pokemon.prototype.removeMove = function (moveNumber) {
+        this.moves.splice(moveNumber, 1);
+    };
     return Pokemon;
 }());
 exports.Pokemon = Pokemon;

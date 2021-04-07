@@ -11,3 +11,5 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./pokemon.model"), exports);
+__exportStar(require("./type.model"), exports);
+__exportStar(require("./move.model"), exports);
