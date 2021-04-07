@@ -61,21 +61,21 @@ export class PokemonController
         }
     }
 
-    private static getAttackMultiplier(attackerType: Type, defenderTypes: Type[]): number
+    private static getAttackMultiplier(moveType: Type, defenderTypes: Type[]): number
     {
         return defenderTypes.reduce((multiplier, defenderType) => {
-            if (this.containsIn(attackerType, defenderType.immunities) || multiplier === 0) {
+            if (this.containsIn(moveType, defenderType.immunities) || multiplier === 0) {
                 return 0;
             }
 
             defenderType.weaknesses.forEach((weakness) => {
-                if (weakness === attackerType) {
+                if (weakness === moveType) {
                     multiplier *= 2;
                 }
             });
 
             defenderType.resistances.forEach((resistance) => {
-                if (resistance === attackerType) {
+                if (resistance === moveType) {
                     multiplier /= 2;
                 }
             });
