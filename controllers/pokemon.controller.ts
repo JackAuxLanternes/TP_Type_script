@@ -3,7 +3,15 @@ export class PokemonController
 {
     static attack(attacker: Pokemon, defender: Pokemon): void
     {
-        defender.currentHp -= (50 * attacker.attack) / defender.defense;
+        let damages = (50 * attacker.attack) / defender.defense;
+        if(defender.currentHp - damages >= 0)
+        {
+            defender.currentHp -= damages;
+        }
+        else
+        {
+                defender.currentHp = 0;
+        }
     }
 
     static whichAttackFirst(pokemon1: Pokemon, pokemon2: Pokemon): Pokemon
