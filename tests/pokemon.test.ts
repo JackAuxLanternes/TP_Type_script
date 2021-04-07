@@ -20,6 +20,13 @@ const arceus = new Pokemon({
     speed: 120
 });
 
-test('Arceus should attack before Pikachu', () => {
-    expect(PokemonController.whichAttackFirst(pikachu, arceus)).toBe(arceus);
+describe('Test Pokemon fight', () => {
+    it('Arceus should attack before Pikachu', () => {
+        expect(PokemonController.whichAttackFirst(pikachu, arceus)).toBe(arceus);
+    });
+
+    it('Arceus should set Pikachu HP to 0', () => {
+        PokemonController.attack(arceus, pikachu);
+        expect(pikachu.currentHp).toBe(0);
+    });
 });

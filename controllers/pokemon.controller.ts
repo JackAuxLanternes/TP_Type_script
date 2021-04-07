@@ -10,7 +10,7 @@ export class PokemonController
         }
         else
         {
-                defender.currentHp = 0;
+            defender.currentHp = 0;
         }
     }
 
