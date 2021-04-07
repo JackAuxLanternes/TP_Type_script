@@ -1,5 +1,5 @@
 import {Pokemon} from "../models";
-import {Type} from "../models/type.model";
+import {Type} from "../models";
 
 export class PokemonController
 {
