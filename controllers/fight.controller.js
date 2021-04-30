@@ -46,11 +46,12 @@ var FightController = /** @class */ (function () {
             var turnCounter;
             var _this = this;
             return __generator(this, function (_a) {
-                turnCounter = 1;
+                turnCounter = 0;
                 this.interval = setInterval(function () { return __awaiter(_this, void 0, void 0, function () {
                     return __generator(this, function (_a) {
                         switch (_a.label) {
                             case 0:
+                                turnCounter += 1;
                                 if (!(!pokemon1.isKO() && !pokemon2.isKO())) return [3 /*break*/, 2];
                                 console.log("=== Turn n\u00B0 " + turnCounter + " ===");
                                 return [4 /*yield*/, this.newTurn(pokemon1, pokemon2)];
@@ -61,7 +62,10 @@ var FightController = /** @class */ (function () {
                                 return [3 /*break*/, 3];
                             case 2:
                                 this.stopInterval();
-                                if (pokemon2.isKO()) {
+                                if (pokemon1.isKO() && pokemon2.isKO()) {
+                                    callback(null);
+                                }
+                                else if (pokemon2.isKO()) {
                                     callback(pokemon1);
                                 }
                                 else {
@@ -76,14 +80,39 @@ var FightController = /** @class */ (function () {
             });
         });
     };
+    FightController.testBattle = function (pokemon1, pokemon2) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!(!pokemon1.isKO() && !pokemon2.isKO())) return [3 /*break*/, 2];
+                        return [4 /*yield*/, this.newTurn(pokemon1, pokemon2)];
+                    case 1:
+                        _a.sent();
+                        return [3 /*break*/, 0];
+                    case 2:
+                        if (pokemon1.isKO() && pokemon2.isKO()) {
+                            return [2 /*return*/, null];
+                        }
+                        else if (pokemon2.isKO()) {
+                            return [2 /*return*/, pokemon1];
+                        }
+                        else {
+                            return [2 /*return*/, pokemon2];
+                        }
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
     FightController.newTurn = function (pokemon1, pokemon2) {
         return __awaiter(this, void 0, void 0, function () {
             var randomAttackNumber1, randomAttackNumber2, pokemon1Move, pokemon2Move;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        randomAttackNumber1 = this.getRandomInt(1, pokemon1.moves.length);
-                        randomAttackNumber2 = this.getRandomInt(1, pokemon2.moves.length);
+                        randomAttackNumber1 = this.getRandomInt(0, pokemon1.moves.length - 1);
+                        randomAttackNumber2 = this.getRandomInt(0, pokemon2.moves.length - 1);
                         pokemon1Move = pokemon1.moves[randomAttackNumber1];
                         pokemon2Move = pokemon2.moves[randomAttackNumber2];
                         return [4 /*yield*/, this.whichAttackFirst(pokemon1, pokemon1Move, pokemon2, pokemon2Move)];

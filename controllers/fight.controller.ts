@@ -6,11 +6,12 @@ export class FightController
 {
     static interval: Timeout;
 
-    static async startBattle(pokemon1: Pokemon, pokemon2: Pokemon, callback: (pokemonWinner: Pokemon) => void): Promise<void>
+    static async startBattle(pokemon1: Pokemon, pokemon2: Pokemon, callback: (pokemonWinner: Pokemon | null) => void): Promise<void>
     {
-        let turnCounter = 1;
+        let turnCounter = 0;
         this.interval = setInterval(async () =>
         {
+            turnCounter += 1;
             if(!pokemon1.isKO() && !pokemon2.isKO()){
                 console.log(`=== Turn n° ${turnCounter} ===`);
                 await this.newTurn(pokemon1, pokemon2);
@@ -20,7 +21,10 @@ export class FightController
             }
             else {
                 this.stopInterval();
-                if(pokemon2.isKO()){
+                if(pokemon1.isKO() && pokemon2.isKO()){
+                    callback(null);
+                }
+                else if(pokemon2.isKO()){
                     callback(pokemon1);
                 }
                 else {
@@ -30,10 +34,27 @@ export class FightController
         }, 1000);
     }
 
+    static async testBattle(pokemon1: Pokemon, pokemon2: Pokemon): Promise<Pokemon | null>
+    {
+        while(!pokemon1.isKO() && !pokemon2.isKO())
+        {
+            await this.newTurn(pokemon1, pokemon2);
+        }
+        if(pokemon1.isKO() && pokemon2.isKO()){
+            return null;
+        }
+        else if(pokemon2.isKO()){
+            return pokemon1;
+        }
+        else {
+            return pokemon2;
+        }
+    }
+
     private static async newTurn(pokemon1: Pokemon, pokemon2: Pokemon): Promise<void>
     {
-        const randomAttackNumber1 = this.getRandomInt(1, pokemon1.moves.length);
-        const randomAttackNumber2 = this.getRandomInt(1, pokemon2.moves.length);
+        const randomAttackNumber1 = this.getRandomInt(0, pokemon1.moves.length - 1);
+        const randomAttackNumber2 = this.getRandomInt(0, pokemon2.moves.length - 1);
         const pokemon1Move = pokemon1.moves[randomAttackNumber1];
         const pokemon2Move = pokemon2.moves[randomAttackNumber2];
 
@@ -47,7 +68,7 @@ export class FightController
         }
     }
 
-    private static async fight(firstAttacker: Pokemon, firstAttackerMove: Move, secondAttacker: Pokemon, secondAttackerMove: Move)
+    private static async fight(firstAttacker: Pokemon, firstAttackerMove: Move, secondAttacker: Pokemon, secondAttackerMove: Move): Promise<void>
     {
         await PokemonController.attackWith(firstAttacker, secondAttacker, firstAttackerMove);
 
