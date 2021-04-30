@@ -82,8 +82,8 @@ var FightController = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        randomAttackNumber1 = Math.floor(Math.random() * pokemon1.moves.length);
-                        randomAttackNumber2 = Math.floor(Math.random() * pokemon2.moves.length);
+                        randomAttackNumber1 = this.getRandomInt(1, pokemon1.moves.length);
+                        randomAttackNumber2 = this.getRandomInt(1, pokemon2.moves.length);
                         pokemon1Move = pokemon1.moves[randomAttackNumber1];
                         pokemon2Move = pokemon2.moves[randomAttackNumber2];
                         return [4 /*yield*/, this.whichAttackFirst(pokemon1, pokemon1Move, pokemon2, pokemon2Move)];

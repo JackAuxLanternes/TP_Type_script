@@ -32,8 +32,8 @@ export class FightController
 
     private static async newTurn(pokemon1: Pokemon, pokemon2: Pokemon): Promise<void>
     {
-        const randomAttackNumber1 = Math.floor(Math.random() * pokemon1.moves.length);
-        const randomAttackNumber2 = Math.floor(Math.random() * pokemon2.moves.length);
+        const randomAttackNumber1 = this.getRandomInt(1, pokemon1.moves.length);
+        const randomAttackNumber2 = this.getRandomInt(1, pokemon2.moves.length);
         const pokemon1Move = pokemon1.moves[randomAttackNumber1];
         const pokemon2Move = pokemon2.moves[randomAttackNumber2];
 
