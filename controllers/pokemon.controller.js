@@ -80,27 +80,6 @@ var PokemonController = /** @class */ (function () {
             });
         });
     };
-    PokemonController.whichAttackFirst = function (pokemon1, pokemon2) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                if (pokemon1.speed === pokemon2.speed) {
-                    if (Math.floor(Math.random()) === 0) {
-                        return [2 /*return*/, pokemon1];
-                    }
-                    else {
-                        return [2 /*return*/, pokemon2];
-                    }
-                }
-                else if (pokemon1.speed > pokemon2.speed) {
-                    return [2 /*return*/, pokemon1];
-                }
-                else {
-                    return [2 /*return*/, pokemon2];
-                }
-                return [2 /*return*/];
-            });
-        });
-    };
     PokemonController.getAttackMultiplier = function (moveType, defenderTypes) {
         return __awaiter(this, void 0, void 0, function () {
             var multiplier, i;

@@ -78,16 +78,22 @@ var FightController = /** @class */ (function () {
     };
     FightController.newTurn = function (pokemon1, pokemon2) {
         return __awaiter(this, void 0, void 0, function () {
+            var randomAttackNumber1, randomAttackNumber2, pokemon1Move, pokemon2Move;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, pokemon_controller_1.PokemonController.whichAttackFirst(pokemon1, pokemon2)];
+                    case 0:
+                        randomAttackNumber1 = Math.floor(Math.random() * pokemon1.moves.length);
+                        randomAttackNumber2 = Math.floor(Math.random() * pokemon2.moves.length);
+                        pokemon1Move = pokemon1.moves[randomAttackNumber1];
+                        pokemon2Move = pokemon2.moves[randomAttackNumber2];
+                        return [4 /*yield*/, this.whichAttackFirst(pokemon1, pokemon1Move, pokemon2, pokemon2Move)];
                     case 1:
                         if (!((_a.sent()) === pokemon1)) return [3 /*break*/, 3];
-                        return [4 /*yield*/, this.fight(pokemon1, pokemon2)];
+                        return [4 /*yield*/, this.fight(pokemon1, pokemon1Move, pokemon2, pokemon2Move)];
                     case 2:
                         _a.sent();
                         return [3 /*break*/, 5];
-                    case 3: return [4 /*yield*/, this.fight(pokemon2, pokemon1)];
+                    case 3: return [4 /*yield*/, this.fight(pokemon2, pokemon2Move, pokemon1, pokemon1Move)];
                     case 4:
                         _a.sent();
                         _a.label = 5;
@@ -96,19 +102,15 @@ var FightController = /** @class */ (function () {
             });
         });
     };
-    FightController.fight = function (firstAttacker, secondAttacker) {
+    FightController.fight = function (firstAttacker, firstAttackerMove, secondAttacker, secondAttackerMove) {
         return __awaiter(this, void 0, void 0, function () {
-            var randomAttackNumber;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        randomAttackNumber = Math.floor(Math.random() * firstAttacker.moves.length);
-                        return [4 /*yield*/, pokemon_controller_1.PokemonController.attackWith(firstAttacker, secondAttacker, firstAttacker.moves[randomAttackNumber])];
+                    case 0: return [4 /*yield*/, pokemon_controller_1.PokemonController.attackWith(firstAttacker, secondAttacker, firstAttackerMove)];
                     case 1:
                         _a.sent();
                         if (!!secondAttacker.isKO()) return [3 /*break*/, 3];
-                        randomAttackNumber = Math.floor(Math.random() * secondAttacker.moves.length);
-                        return [4 /*yield*/, pokemon_controller_1.PokemonController.attackWith(secondAttacker, firstAttacker, secondAttacker.moves[randomAttackNumber])];
+                        return [4 /*yield*/, pokemon_controller_1.PokemonController.attackWith(secondAttacker, firstAttacker, secondAttackerMove)];
                     case 2:
                         _a.sent();
                         _a.label = 3;
@@ -116,6 +118,36 @@ var FightController = /** @class */ (function () {
                 }
             });
         });
+    };
+    FightController.whichAttackFirst = function (pokemon1, pokemon1Move, pokemon2, pokemon2Move) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                if (pokemon1Move.priority > pokemon2Move.priority) {
+                    return [2 /*return*/, pokemon1];
+                }
+                else if (pokemon2Move.priority > pokemon1Move.priority) {
+                    return [2 /*return*/, pokemon2];
+                }
+                if (pokemon1.speed === pokemon2.speed) {
+                    if (this.getRandomInt(0, 1) === 0) {
+                        return [2 /*return*/, pokemon1];
+                    }
+                    else {
+                        return [2 /*return*/, pokemon2];
+                    }
+                }
+                else if (pokemon1.speed > pokemon2.speed) {
+                    return [2 /*return*/, pokemon1];
+                }
+                else {
+                    return [2 /*return*/, pokemon2];
+                }
+                return [2 /*return*/];
+            });
+        });
+    };
+    FightController.getRandomInt = function (min, max) {
+        return Math.floor(Math.random() * (max - min + 1) + min);
     };
     FightController.stopInterval = function () {
         clearInterval(this.interval);

@@ -1,5 +1,6 @@
 import {Move, Pokemon, Type} from "../models";
 import {PokemonController} from "../controllers/pokemon.controller";
+import {FightController} from "../controllers/fight.controller";
 
 const electric = new Type("Electric");
 const water = new Type("Water");
@@ -97,11 +98,7 @@ const giratina = new Pokemon({
     moves: [shadow_ball]
 });
 
-describe('Test Pokemon attacks', () => {
-    it('Arceus should attack before Pikachu', async () => {
-        expect(await PokemonController.whichAttackFirst(pikachu, arceus)).toBe(arceus);
-    });
-
+describe('Test Pokemon attacks damages', () => {
     it('Arceus shouldn\'t take damage from Giratina', async () => {
         expect(await PokemonController.attackWith(giratina, arceus, giratina.moves[0])).toBe(0);
         expect(arceus.currentHp).toBe(120);
@@ -128,5 +125,11 @@ describe('Test Pokemon attacks', () => {
         expect(pikachu.currentHp).toBe(0);
         expect(pikachu.isKO()).toBeTruthy();
         expect(pikachu.hpLeft()).toBe("Pikachu is K.O.");
+    });
+});
+
+describe('Test Pokemon fight', () => {
+    it('Arceus should attack before Pikachu', async () => {
+        expect(await FightController.whichAttackFirst(pikachu, pikachu.moves[0], arceus, arceus.moves[0])).toBe(arceus);
     });
 });
