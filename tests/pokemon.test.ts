@@ -129,7 +129,22 @@ describe('Test Pokemon attacks damages', () => {
 });
 
 describe('Test Pokemon fight', () => {
+    beforeEach(() => {
+        FightController.getRandomInt = jest.fn().mockImplementation(() => {
+            return 1;
+        });
+    });
+
     it('Arceus should attack before Pikachu', async () => {
+        FightController.getRandomInt(0, 1)
         expect(await FightController.whichAttackFirst(pikachu, pikachu.moves[0], arceus, arceus.moves[0])).toBe(arceus);
+    });
+
+    it('Marill should attack before Arceus because of Aqua Jet priority', async () => {
+        expect(await FightController.whichAttackFirst(marill, marill.moves[0], arceus, arceus.moves[0])).toBe(marill);
+    });
+
+    it('Even with the same speed, Giratina should always attack before Pikachu because of beforeEach mock', async () => {
+        expect(await FightController.whichAttackFirst(pikachu, pikachu.moves[0], giratina, giratina.moves[0])).toBe(giratina);
     });
 });
