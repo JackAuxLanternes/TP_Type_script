@@ -97,7 +97,7 @@ const giratina = new Pokemon({
     moves: [shadow_ball]
 });
 
-describe('Test Pokemon fight', () => {
+describe('Test Pokemon attacks', () => {
     it('Arceus should attack before Pikachu', async () => {
         expect(await PokemonController.whichAttackFirst(pikachu, arceus)).toBe(arceus);
     });
@@ -120,7 +120,7 @@ describe('Test Pokemon fight', () => {
         expect(await PokemonController.attackWith(marill, pikachu, marill.moves[0])).toBe(10);
         expect(pikachu.currentHp).toBe(25);
         expect(pikachu.isKO()).toBeFalsy();
-        expect(pikachu.hpLeft()).toBe("Pikachu have 120 HP left");
+        expect(pikachu.hpLeft()).toBe("Pikachu have 25 HP left");
     });
 
     it('Arceus should set Pikachu KO, not below 0', async () => {
