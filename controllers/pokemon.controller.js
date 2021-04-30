@@ -10,7 +10,7 @@ var PokemonController = /** @class */ (function () {
         move.ppLeft -= 1;
         if (Math.floor(Math.random() * 100) > move.accuracy) {
             console.log(attacker.name + " missed");
-            return;
+            return 0;
         }
         if (move.category === "physical") {
             damages = move.power * attacker.attack * this.getAttackMultiplier(move.type, defender.types);
@@ -29,6 +29,7 @@ var PokemonController = /** @class */ (function () {
             console.log(defender.name + " is K.O.");
             defender.currentHp = 0;
         }
+        return damages;
     };
     PokemonController.whichAttackFirst = function (pokemon1, pokemon2) {
         if (pokemon1.speed === pokemon2.speed) {
@@ -46,19 +47,19 @@ var PokemonController = /** @class */ (function () {
             return pokemon2;
         }
     };
-    PokemonController.getAttackMultiplier = function (attackerType, defenderTypes) {
+    PokemonController.getAttackMultiplier = function (moveType, defenderTypes) {
         var _this = this;
         return defenderTypes.reduce(function (multiplier, defenderType) {
-            if (_this.containsIn(attackerType, defenderType.immunities) || multiplier === 0) {
+            if (_this.containsIn(moveType, defenderType.immunities) || multiplier === 0) {
                 return 0;
             }
             defenderType.weaknesses.forEach(function (weakness) {
-                if (weakness === attackerType) {
+                if (weakness === moveType) {
                     multiplier *= 2;
                 }
             });
             defenderType.resistances.forEach(function (resistance) {
-                if (resistance === attackerType) {
+                if (resistance === moveType) {
                     multiplier /= 2;
                 }
             });

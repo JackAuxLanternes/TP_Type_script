@@ -2,7 +2,7 @@ import {Move, Pokemon, Type} from "../models";
 
 export class PokemonController
 {
-    static attackWith(attacker: Pokemon, defender: Pokemon, move: Move): void
+    static attackWith(attacker: Pokemon, defender: Pokemon, move: Move): number
     {
         let damages;
 
@@ -12,7 +12,7 @@ export class PokemonController
         if(Math.floor(Math.random() * 100) > move.accuracy)
         {
             console.log(`${attacker.name} missed`);
-            return;
+            return 0;
         }
 
         if(move.category === "physical")
@@ -40,6 +40,7 @@ export class PokemonController
             console.log(`${defender.name} is K.O.`);
             defender.currentHp = 0;
         }
+        return damages;
     }
 
     static whichAttackFirst(pokemon1: Pokemon, pokemon2: Pokemon): Pokemon

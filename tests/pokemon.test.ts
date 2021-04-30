@@ -19,7 +19,7 @@ const thunder = new Move({
     type: electric,
     pp: 10,
     power: 110,
-    accuracy: 100, // It's 70 but it's for the test
+    accuracy: 100, // It's 70 in the game but it's 100 for the test
     priority: 0,
     category: 'special'
 });
@@ -103,22 +103,23 @@ describe('Test Pokemon fight', () => {
     });
 
     it('Arceus shouldn\'t take damage from Giratina', () => {
-        PokemonController.attackWith(giratina, arceus, giratina.moves[0]);
+        expect(PokemonController.attackWith(giratina, arceus, giratina.moves[0])).toBe(0);
         expect(arceus.currentHp).toBe(120);
     });
 
     it('Pikachu should set Marill HP to 0 because of the Marill weakness to electricity', () => {
-        PokemonController.attackWith(pikachu, marill, pikachu.moves[0]);
+        expect(PokemonController.attackWith(pikachu, marill, pikachu.moves[0])).toBe(220);
         expect(marill.currentHp).toBe(0);
     });
 
     it('Pikachu should take only 10 damage from Marill because of the Pikachu resistance to water', () => {
+        expect(PokemonController.attackWith(marill, pikachu, marill.moves[0])).toBe(10);
         PokemonController.attackWith(marill, pikachu, marill.moves[0]);
-        expect(pikachu.currentHp).toBe(25);
+        expect(pikachu.currentHp).toBe(15);
     });
 
     it('Arceus should set Pikachu HP to 0, not below 0', () => {
-        PokemonController.attackWith(arceus, pikachu, arceus.moves[0]);
+        expect(PokemonController.attackWith(arceus, pikachu, arceus.moves[0])).toBe(240);
         expect(pikachu.currentHp).toBe(0);
     });
 });
