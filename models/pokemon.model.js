@@ -25,6 +25,15 @@ var Pokemon = /** @class */ (function () {
     Pokemon.prototype.isKO = function () {
         return this.currentHp === 0;
     };
+    Pokemon.prototype.hpLeft = function () {
+        if (this.isKO()) {
+            return this.name + " est K.O.";
+        }
+        if (this.currentHp === 1) {
+            return this.name + " a 1 HP restant, c'est chaud";
+        }
+        return this.name + " a " + this.currentHp + " HP restants";
+    };
     return Pokemon;
 }());
 exports.Pokemon = Pokemon;
