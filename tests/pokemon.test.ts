@@ -86,7 +86,7 @@ const marill = new Pokemon({
     moves: [aqua_jet]
 });
 const giratina = new Pokemon({
-    name: 'giratina',
+    name: 'Giratina',
     types: [ghost, dragon],
     hp: 150,
     attack: 100,
