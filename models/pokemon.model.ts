@@ -61,11 +61,8 @@ export class Pokemon
     hpLeft(): string
     {
         if(this.isKO()){
-            return `${this.name} est K.O.`;
+            return `${this.name} is K.O.`;
         }
-        if(this.currentHp === 1){
-            return `${this.name} a 1 HP restant, c'est chaud`;
-        }
-        return `${this.name} a ${this.currentHp} HP restants`;
+        return `${this.name} have ${this.currentHp} HP left`;
     }
 }

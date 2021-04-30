@@ -37,7 +37,6 @@ export class PokemonController
         }
         else
         {
-            console.log(`${defender.name} is K.O.`);
             defender.currentHp = 0;
         }
         return damages;

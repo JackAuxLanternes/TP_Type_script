@@ -73,7 +73,6 @@ var PokemonController = /** @class */ (function () {
                             defender.currentHp -= damages;
                         }
                         else {
-                            console.log(defender.name + " is K.O.");
                             defender.currentHp = 0;
                         }
                         return [2 /*return*/, damages];
