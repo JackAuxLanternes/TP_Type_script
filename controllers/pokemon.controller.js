@@ -37,6 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PokemonController = void 0;
+var fight_controller_1 = require("./fight.controller");
 var PokemonController = /** @class */ (function () {
     function PokemonController() {
     }
@@ -48,8 +49,12 @@ var PokemonController = /** @class */ (function () {
                     case 0:
                         console.log(attacker.name + " used " + move.name + " against " + defender.name);
                         move.ppLeft -= 1;
-                        if (Math.floor(Math.random() * 100) > move.accuracy) {
+                        if (Math.floor(fight_controller_1.FightController.getRandomInt(0, 100)) > move.accuracy) {
                             console.log(attacker.name + " missed");
+                            return [2 /*return*/, 0];
+                        }
+                        if (attacker.currentHp === 0) {
+                            console.log("But " + attacker.name + " is K.O.");
                             return [2 /*return*/, 0];
                         }
                         if (!(move.category === "physical")) return [3 /*break*/, 2];

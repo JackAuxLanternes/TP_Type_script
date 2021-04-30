@@ -1,4 +1,5 @@
 import {Move, Pokemon, Type} from "../models";
+import {FightController} from "./fight.controller";
 
 export class PokemonController
 {
@@ -9,9 +10,15 @@ export class PokemonController
         console.log(`${attacker.name} used ${move.name} against ${defender.name}`);
         move.ppLeft -= 1;
 
-        if(Math.floor(Math.random() * 100) > move.accuracy)
+        if(Math.floor(FightController.getRandomInt(0, 100)) > move.accuracy)
         {
             console.log(`${attacker.name} missed`);
+            return 0;
+        }
+
+        if(attacker.currentHp === 0)
+        {
+            console.log(`But ${attacker.name} is K.O.`);
             return 0;
         }
 
