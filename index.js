@@ -78,7 +78,7 @@ var arceus = new models_1.Pokemon({
     specialAttack: 120,
     specialDefense: 120,
     speed: 120,
-    moves: [judgment]
+    moves: [judgment, shadow_claw]
 });
 var marill = new models_1.Pokemon({
     name: 'Marill',
@@ -102,7 +102,11 @@ var giratina = new models_1.Pokemon({
     speed: 90,
     moves: [shadow_ball]
 });
-// FightController.startBattle(marill, pikachu).then(PokemonWinner => console.log(`Et le vainqueur est ${PokemonWinner} !!!`));
-fight_controller_1.FightController.startBattle(pikachu, arceus, function (pokemonWinner) {
-    console.log("Et le vainqueur est " + pokemonWinner.name + " !!!");
+fight_controller_1.FightController.startBattle(arceus, giratina, function (pokemonWinner) {
+    if (pokemonWinner !== null) {
+        console.log("And the winner is " + pokemonWinner.name + " !!!");
+    }
+    else {
+        console.log("Double K.O. ! How ? ¯\\_(ツ)_/¯");
+    }
 });
