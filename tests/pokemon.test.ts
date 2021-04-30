@@ -98,28 +98,27 @@ const giratina = new Pokemon({
 });
 
 describe('Test Pokemon fight', () => {
-    it('Arceus should attack before Pikachu', () => {
-        expect(PokemonController.whichAttackFirst(pikachu, arceus)).toBe(arceus);
+    it('Arceus should attack before Pikachu', async () => {
+        expect(await PokemonController.whichAttackFirst(pikachu, arceus)).toBe(arceus);
     });
 
-    it('Arceus shouldn\'t take damage from Giratina', () => {
-        expect(PokemonController.attackWith(giratina, arceus, giratina.moves[0])).toBe(0);
+    it('Arceus shouldn\'t take damage from Giratina', async () => {
+        expect(await PokemonController.attackWith(giratina, arceus, giratina.moves[0])).toBe(0);
         expect(arceus.currentHp).toBe(120);
     });
 
-    it('Pikachu should set Marill HP to 0 because of the Marill weakness to electricity', () => {
-        expect(PokemonController.attackWith(pikachu, marill, pikachu.moves[0])).toBe(220);
+    it('Pikachu should set Marill HP to 0 because of the Marill weakness to electricity', async () => {
+        expect(await PokemonController.attackWith(pikachu, marill, pikachu.moves[0])).toBe(220);
         expect(marill.currentHp).toBe(0);
     });
 
-    it('Pikachu should take only 10 damage from Marill because of the Pikachu resistance to water', () => {
-        expect(PokemonController.attackWith(marill, pikachu, marill.moves[0])).toBe(10);
-        PokemonController.attackWith(marill, pikachu, marill.moves[0]);
-        expect(pikachu.currentHp).toBe(15);
+    it('Pikachu should take only 10 damage from Marill because of the Pikachu resistance to water', async () => {
+        expect(await PokemonController.attackWith(marill, pikachu, marill.moves[0])).toBe(10);
+        expect(pikachu.currentHp).toBe(25);
     });
 
-    it('Arceus should set Pikachu HP to 0, not below 0', () => {
-        expect(PokemonController.attackWith(arceus, pikachu, arceus.moves[0])).toBe(240);
+    it('Arceus should set Pikachu HP to 0, not below 0', async () => {
+        expect(await PokemonController.attackWith(arceus, pikachu, arceus.moves[0])).toBe(240);
         expect(pikachu.currentHp).toBe(0);
     });
 });

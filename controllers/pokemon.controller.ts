@@ -2,7 +2,7 @@ import {Move, Pokemon, Type} from "../models";
 
 export class PokemonController
 {
-    static attackWith(attacker: Pokemon, defender: Pokemon, move: Move): number
+    static async attackWith(attacker: Pokemon, defender: Pokemon, move: Move): Promise<number>
     {
         let damages;
 
@@ -17,13 +17,13 @@ export class PokemonController
 
         if(move.category === "physical")
         {
-            damages = move.power * attacker.attack * this.getAttackMultiplier(move.type, defender.types);
+            damages = move.power * attacker.attack * await this.getAttackMultiplier(move.type, defender.types);
 
             damages /= defender.defense;
         }
         else
         {
-            damages = move.power * attacker.specialAttack * this.getAttackMultiplier(move.type, defender.types);
+            damages = move.power * attacker.specialAttack * await this.getAttackMultiplier(move.type, defender.types);
 
             damages /= defender.specialDefense;
         }
@@ -43,7 +43,7 @@ export class PokemonController
         return damages;
     }
 
-    static whichAttackFirst(pokemon1: Pokemon, pokemon2: Pokemon): Pokemon
+    static async whichAttackFirst(pokemon1: Pokemon, pokemon2: Pokemon): Promise<Pokemon>
     {
         if(pokemon1.speed === pokemon2.speed)
         {
@@ -62,29 +62,32 @@ export class PokemonController
         }
     }
 
-    private static getAttackMultiplier(moveType: Type, defenderTypes: Type[]): number
+    private static async getAttackMultiplier(moveType: Type, defenderTypes: Type[]): Promise<number>
     {
-        return defenderTypes.reduce((multiplier, defenderType) => {
-            if (this.containsIn(moveType, defenderType.immunities) || multiplier === 0) {
+        let multiplier = 1;
+        for(let i = 0; i < defenderTypes.length; i++)
+        {
+            if (await this.containsIn(moveType, defenderTypes[i].immunities) || multiplier === 0) {
                 return 0;
             }
 
-            defenderType.weaknesses.forEach((weakness) => {
+            defenderTypes[i].weaknesses.forEach((weakness) => {
                 if (weakness === moveType) {
                     multiplier *= 2;
                 }
             });
 
-            defenderType.resistances.forEach((resistance) => {
+            defenderTypes[i].resistances.forEach((resistance) => {
                 if (resistance === moveType) {
                     multiplier /= 2;
                 }
             });
-            return multiplier;
-        }, 1);
+        }
+
+        return multiplier;
     }
 
-    private static containsIn(typeSearched: Type, typeList: Type[]): boolean
+    private static async containsIn(typeSearched: Type, typeList: Type[]): Promise<boolean>
     {
         let flag = typeList.reduce((prev, type) => {
             if (typeSearched === type) {
