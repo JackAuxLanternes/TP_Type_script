@@ -52,4 +52,9 @@ export class Pokemon
     {
         this.moves.splice(moveNumber, 1);
     }
+
+    isKO(): boolean
+    {
+        return this.currentHp === 0;
+    }
 }

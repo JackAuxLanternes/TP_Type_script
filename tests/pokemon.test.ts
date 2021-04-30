@@ -105,20 +105,24 @@ describe('Test Pokemon fight', () => {
     it('Arceus shouldn\'t take damage from Giratina', async () => {
         expect(await PokemonController.attackWith(giratina, arceus, giratina.moves[0])).toBe(0);
         expect(arceus.currentHp).toBe(120);
+        expect(arceus.isKO()).toBeFalsy();
     });
 
-    it('Pikachu should set Marill HP to 0 because of the Marill weakness to electricity', async () => {
+    it('Pikachu should set Marill KO because of the Marill weakness to electricity', async () => {
         expect(await PokemonController.attackWith(pikachu, marill, pikachu.moves[0])).toBe(220);
         expect(marill.currentHp).toBe(0);
+        expect(marill.isKO()).toBeTruthy();
     });
 
     it('Pikachu should take only 10 damage from Marill because of the Pikachu resistance to water', async () => {
         expect(await PokemonController.attackWith(marill, pikachu, marill.moves[0])).toBe(10);
         expect(pikachu.currentHp).toBe(25);
+        expect(pikachu.isKO()).toBeFalsy();
     });
 
-    it('Arceus should set Pikachu HP to 0, not below 0', async () => {
+    it('Arceus should set Pikachu KO, not below 0', async () => {
         expect(await PokemonController.attackWith(arceus, pikachu, arceus.moves[0])).toBe(240);
         expect(pikachu.currentHp).toBe(0);
+        expect(pikachu.isKO()).toBeTruthy();
     });
 });

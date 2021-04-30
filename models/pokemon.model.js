@@ -22,6 +22,9 @@ var Pokemon = /** @class */ (function () {
     Pokemon.prototype.removeMove = function (moveNumber) {
         this.moves.splice(moveNumber, 1);
     };
+    Pokemon.prototype.isKO = function () {
+        return this.currentHp === 0;
+    };
     return Pokemon;
 }());
 exports.Pokemon = Pokemon;
